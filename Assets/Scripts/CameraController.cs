@@ -21,4 +21,8 @@ public class CameraController : MonoBehaviour
         gameObject.transform.position = player.transform.position+new Vector3(0,10,-5);
         gameObject.transform.rotation = Quaternion.Euler(45,0,0);
     }
+
+    void mouce(){
+        
+    }
 }
