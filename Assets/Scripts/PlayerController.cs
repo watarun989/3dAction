@@ -22,6 +22,16 @@ public class PlayerController : MonoBehaviour
         Move(); 
         Jump();
         Rotate();
+
+        //フィジクスクラスの中のレイキャスト命令で足元を探索
+        isGrounded = Physics.Raycast(
+            transform.position, //センサーの発信位置
+            Vector3.down, //センサーの発信する方向
+            out RaycastHit hit, //ヒットした相手(変数名hit)を出力(out)する
+            2.0f //どのくらいセンサーを伸ばすか
+            ) ;
+
+        Debug.Log("isGrounded:" + isGrounded);
     }
 
     void Move(){
@@ -46,14 +56,14 @@ public class PlayerController : MonoBehaviour
         if(Input.GetButtonDown("Jump") && isGrounded){
              //上方向に力を与える　Impulseは瞬間的に力を与える
             rb.AddForce(Vector3.up * jumpForce,ForceMode.Impulse); 
-            isGrounded = false; 
+            //isGrounded = false; 
             Debug.Log("Jump");
         }
     }
 
-    void OnCollisionEnter(Collision other){
-        if(other.gameObject.tag == "Ground"){
-            isGrounded = true; 
-        }
-    }
+    //void OnCollisionEnter(Collision other){
+    //    if(other.gameObject.tag == "Ground"){
+    //        isGrounded = true; 
+    //    }
+    //}
 }
