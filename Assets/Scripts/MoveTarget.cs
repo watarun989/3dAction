@@ -20,8 +20,12 @@ public class MoveTarget : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //（）に指定した座標に向かう （）の中は座標（Vector3型）
-        //プレイヤーの座標に向かう
-        agent.SetDestination(player.transform.position); 
+        //常にプレイヤーとエネミーの距離を計算
+        float distance = Vector3.Distance(player.transform.position,transform.position); 
+        if(distance <= 10.0f){
+            //（）に指定した座標に向かう （）の中は座標（Vector3型）
+            //プレイヤーの座標に向かう
+            agent.SetDestination(player.transform.position); 
+        }
     }
 }
