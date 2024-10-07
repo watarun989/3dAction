@@ -11,8 +11,8 @@ public class MoveTarget : MonoBehaviour
     //追う対象　変数名player
     public GameObject player; 
 
-    Vector3 enemyPosition0; 
-    Vector3 enemyPosition1; 
+    public Transform enemyPosition0; 
+    public Transform enemyPosition1; 
 
     //巡回ルート担当
     public int route = 0; 
@@ -20,8 +20,8 @@ public class MoveTarget : MonoBehaviour
     void Start()
     {
         //エネミーの最初の位置を取得
-        enemyPosition0 = transform.position; 
-        enemyPosition1 = new Vector3(100,5,100); 
+        // enemyPosition0 = new Vector3(40,-4,60); 
+        // enemyPosition1 = new Vector3(40,-4,-13); 
     }
 
     // Update is called once per frame
@@ -43,11 +43,11 @@ public class MoveTarget : MonoBehaviour
         } else{
             //エネミーの初期地点へ向かう
             if(route == 0){
-                agent.SetDestination(enemyPosition0); 
+                agent.SetDestination(enemyPosition0.position); 
             }
             //P1に辿り着いて、P2を目指す
             else if(route == 1){
-                agent.SetDestination(enemyPosition1); 
+                agent.SetDestination(enemyPosition1.position); 
             }
         }
     }
@@ -56,6 +56,11 @@ public class MoveTarget : MonoBehaviour
         if(other.gameObject.tag == "p0"){
             //次の目的地
             route = 1; 
+        }
+
+        if(other.gameObject.tag == "p1"){
+            //次の目的地
+            route = 0; 
         }
     }
 }
