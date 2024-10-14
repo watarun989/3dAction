@@ -13,6 +13,8 @@ public class MoveTarget : MonoBehaviour
 
     public Transform enemyPosition0; 
     public Transform enemyPosition1; 
+    public Transform enemyPosition2; 
+    public Transform enemyPosition3; 
 
     //巡回ルート担当
     public int route = 0; 
@@ -49,6 +51,14 @@ public class MoveTarget : MonoBehaviour
             else if(route == 1){
                 agent.SetDestination(enemyPosition1.position); 
             }
+
+            else if(route == 2){
+                agent.SetDestination(enemyPosition2.position); 
+            }
+
+            else if(route == 3){
+                agent.SetDestination(enemyPosition3.position); 
+            }
         }
     }
 
@@ -59,6 +69,16 @@ public class MoveTarget : MonoBehaviour
         }
 
         if(other.gameObject.tag == "p1"){
+            //次の目的地
+            route = 2; 
+        }
+
+        if(other.gameObject.tag == "p2"){
+            //次の目的地
+            route = 3; 
+        }
+
+        if(other.gameObject.tag == "p3"){
             //次の目的地
             route = 0; 
         }
