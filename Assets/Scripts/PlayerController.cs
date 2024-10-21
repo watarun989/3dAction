@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 5.0f; //ジャンプ力
     Rigidbody rb; 
     bool isGrounded = false; //地面判定
+    public int coin = 0; //アイテムの数
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +59,14 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(Vector3.up * jumpForce,ForceMode.Impulse); 
             //isGrounded = false; 
             Debug.Log("Jump");
+        }
+    }
+
+    void OnTriggerEnter(Collider other){
+        if(other.gameObject.tag == "item"){
+            coin++; 
+            Debug.Log("coin" + coin); 
+            Destroy(other.gameObject); 
         }
     }
 

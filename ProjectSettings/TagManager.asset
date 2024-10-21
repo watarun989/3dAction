@@ -11,6 +11,7 @@ TagManager:
   - p3
   - p4
   - p5
+  - item
   layers:
   - Default
   - TransparentFX
