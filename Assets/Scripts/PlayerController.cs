@@ -11,10 +11,15 @@ public class PlayerController : MonoBehaviour
     bool isGrounded = false; //地面判定
     public int coin = 0; //アイテムの数
 
+    public Camera mainCamera; //見下ろしカメラ
+    public Camera PersonalCamera; //主観カメラ
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>(); 
+        mainCamera.enabled = true; 
+        PersonalCamera.enabled = false; 
     }
 
     // Update is called once per frame
@@ -33,6 +38,14 @@ public class PlayerController : MonoBehaviour
             ) ;
 
         Debug.Log("isGrounded:" + isGrounded);
+
+        if(Input.GetKey(KeyCode.Space)){
+            mainCamera.enabled = false; 
+            PersonalCamera.enabled = true; 
+        }else{
+            mainCamera.enabled = true; 
+            PersonalCamera.enabled = false; 
+        }
     }
 
     void Move(){
