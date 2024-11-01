@@ -25,10 +25,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move(); 
-        Jump();
         Rotate();
-
+        
         //フィジクスクラスの中のレイキャスト命令で足元を探索
         isGrounded = Physics.Raycast(
             transform.position, //センサーの発信位置
@@ -45,6 +43,8 @@ public class PlayerController : MonoBehaviour
         }else{
             mainCamera.enabled = true; 
             PersonalCamera.enabled = false; 
+            Move(); 
+            Jump();
         }
     }
 
