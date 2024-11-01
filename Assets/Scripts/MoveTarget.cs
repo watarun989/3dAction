@@ -19,7 +19,12 @@ public class MoveTarget : MonoBehaviour
     public Transform enemyPosition5; 
 
     //巡回ルート担当
-    public int route = 0; 
+    public int route = 0;
+
+    //プレイヤーを見つけたかどうかフラグ
+    bool isSearchPlayer;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,8 +48,37 @@ public class MoveTarget : MonoBehaviour
         if(distance <= 10.0f){
             //（）に指定した座標に向かう （）の中は座標（Vector3型）
             //プレイヤーの座標に向かう
-            agent.SetDestination(player.transform.position); 
+            agent.SetDestination(player.transform.position);
+
+            //プレイヤーを見つけたフラグ
+            isSearchPlayer = true;
+
+            //プレイヤーを見つけたアイコンを表示
+            PlayerController.eyeStatus = true;
+
         } else{
+
+            //プレイヤーを見つけたかどうかのフラグ
+            isSearchPlayer = false;
+            PlayerController.eyeStatus = false;
+
+            //もしも他のエネミーがプレイヤーを見つけていれば
+            //eyeStatusはtrueのまま維持したい
+
+            //FindObjectsOfTypeで探してきたMoveTargetプログラムを持っている
+            //オブジェクト全員を配列mtに入れる
+
+            //foreachとは、特定の取得した配列の中身に対して、順に同じ処理を強制する
+            //FindObjectsOfType<○○>()　⇒　○○スクリプトを持っているオブジェクトを全員探して　in　の前の配列に詰みこむ
+            foreach (MoveTarget mt in FindObjectsOfType<MoveTarget>())
+            {
+                if(mt.isSearchPlayer == true)
+                {
+                    PlayerController.eyeStatus = true;
+                    break; //ひとり見つかったからforeachのループを抜ける
+                }
+            }
+
             //エネミーの初期地点へ向かう
             if(route == 0){
                 agent.SetDestination(enemyPosition0.position); 

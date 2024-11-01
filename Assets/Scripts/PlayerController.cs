@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public Camera mainCamera; //見下ろしカメラ
     public Camera PersonalCamera; //主観カメラ
 
+    public static bool eyeStatus; //見つかったかどうかのフラグ
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +27,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(eyeStatus);
+
         Rotate();
         
         //フィジクスクラスの中のレイキャスト命令で足元を探索
@@ -35,7 +39,7 @@ public class PlayerController : MonoBehaviour
             2.0f //どのくらいセンサーを伸ばすか
             ) ;
 
-        Debug.Log("isGrounded:" + isGrounded);
+        //Debug.Log("isGrounded:" + isGrounded);
 
         if(Input.GetKey(KeyCode.Space)){
             mainCamera.enabled = false; 
