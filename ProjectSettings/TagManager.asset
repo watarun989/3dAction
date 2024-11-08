@@ -12,6 +12,7 @@ TagManager:
   - p4
   - p5
   - item
+  - enemy
   layers:
   - Default
   - TransparentFX

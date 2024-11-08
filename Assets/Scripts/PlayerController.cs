@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UntyEngine.SceneManager; 
 
 public class PlayerController : MonoBehaviour
 {
@@ -84,6 +85,8 @@ public class PlayerController : MonoBehaviour
             coin++; 
             Debug.Log("coin" + coin); 
             Destroy(other.gameObject); 
+        }else if(other.gameObject.tag == "enemy"){
+            SceneManager.LoadScene("GameOverScene"); 
         }
     }
 
