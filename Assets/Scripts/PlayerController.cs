@@ -85,7 +85,13 @@ public class PlayerController : MonoBehaviour
             coin++; 
             Debug.Log("coin" + coin); 
             Destroy(other.gameObject); 
-        }else if(other.gameObject.tag == "enemy"){
+        }
+    }
+
+    void OnCollisionEnter(Collision other){
+        Debug.Log("Collison"); 
+        if(other.gameObject.tag == "enemy"){
+            
             SceneManager.LoadScene("GameOverScene"); 
         }
     }
