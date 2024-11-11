@@ -17,6 +17,11 @@ public class PlayerController : MonoBehaviour
 
     public static bool eyeStatus; //見つかったかどうかのフラグ
 
+    bool isHold; //木箱を掴んでいるかどうか
+    bool isObject; //木箱に触れているかどうか
+
+    public GameObject box; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +55,14 @@ public class PlayerController : MonoBehaviour
             PersonalCamera.enabled = false; 
             Move(); 
             Jump();
+        }
+
+        if(Input.GetKeyDown(KeyCode.E)){
+            if(isHold){
+                DropObject(); 
+            }else if(isObject){
+                PickupObject(); 
+            }
         }
     }
 
@@ -91,9 +104,32 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter(Collision other){
         Debug.Log("Collison"); 
         if(other.gameObject.tag == "enemy"){
-            
             SceneManager.LoadScene("GameOverScene"); 
         }
+
+        if(other.gameObject.tag == "box"){
+            isObject = true; 
+        }
+    }
+
+    void OnCollisionExit(Collision other){
+        if(other.gameObject.tag == "box"){
+            isObject = false; 
+        }
+    }
+
+    void DropObject(){
+        isHold = false; 
+        box.transform.SetParent(null); 
+        box.GetComponent<Rigidbody>().isKinematic = false; 
+        isObject = false; 
+    }
+
+    void PickupObject(){
+        isHold = true; 
+        box.transform.SetParent(transform); 
+        box.transform.localPosition = new Vector3(0,5,5); 
+        box.GetComponent<Rigidbody>().isKinematic = true; 
     }
 
     //void OnCollisionEnter(Collision other){
