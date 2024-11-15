@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed=5.0f; 
+    public float moveSpeed = 5.0f; 
     public float rotationSpeed = 720.0f; //プレイヤーの回転速度
     public float jumpForce = 5.0f; //ジャンプ力
     Rigidbody rb; 
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
             mainCamera.enabled = true; 
             PersonalCamera.enabled = false; 
             Move(); 
-            Jump();
+            Jump(jumpForce);
         }
 
         if(Input.GetKeyDown(KeyCode.E)){
@@ -84,10 +84,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Jump(){
+    void Jump(float value){
         if(Input.GetButtonDown("Jump") && isGrounded){
              //上方向に力を与える　Impulseは瞬間的に力を与える
-            rb.AddForce(Vector3.up * jumpForce,ForceMode.Impulse); 
+            rb.AddForce(Vector3.up * value,ForceMode.Impulse); 
             //isGrounded = false; 
             Debug.Log("Jump");
         }
@@ -99,13 +99,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("coin" + coin); 
             Destroy(other.gameObject); 
         }
-    }
-
-    void OnCollisionEnter(Collision other){
-        Debug.Log("Collison"); 
-        if(other.gameObject.tag == "enemy"){
-            SceneManager.LoadScene("GameOverScene"); 
-        }
 
         if(other.gameObject.tag == "box"){
             //isObject = true;
@@ -113,10 +106,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCollisionExit(Collision other){
+    void OnTriggerExit(Collider other){
         if(other.gameObject.tag == "box"){
             //isObject = false;
             box = null; //対象のゲームオブジェクトはいない
+        }
+    }
+
+    void OnCollisionEnter(Collision other){
+        Debug.Log("Collison"); 
+        if(other.gameObject.tag == "enemy"){
+            SceneManager.LoadScene("GameOverScene"); 
         }
     }
 
@@ -125,14 +125,18 @@ public class PlayerController : MonoBehaviour
         box.transform.SetParent(null); 
         box.GetComponent<Rigidbody>().isKinematic = false; 
         //isObject = false;
-        box = null;
+        box = null; 
+        jumpForce = 5.0f; 
+        moveSpeed = 5.0f; 
     }
 
     void PickupObject(){
         isHold = true; 
         box.transform.SetParent(transform); 
-        box.transform.localPosition = new Vector3(0,4,3.5f); 
+        box.transform.localPosition = new Vector3(0,4,4); 
         box.GetComponent<Rigidbody>().isKinematic = true; 
+        moveSpeed *= 0.8f; 
+        jumpForce = 0; 
     }
 
     //void OnCollisionEnter(Collision other){
