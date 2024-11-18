@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
     void PickupObject(){
         isHold = true; 
         box.transform.SetParent(transform); 
-        box.transform.localPosition = new Vector3(0,4,4); 
+        box.transform.localPosition = new Vector3(0,4,5); 
         box.GetComponent<Rigidbody>().isKinematic = true; 
         moveSpeed *= 0.8f; 
         jumpForce = 0; 

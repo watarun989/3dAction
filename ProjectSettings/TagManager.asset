@@ -14,6 +14,7 @@ TagManager:
   - item
   - enemy
   - box
+  - goal
   layers:
   - Default
   - TransparentFX
