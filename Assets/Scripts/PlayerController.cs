@@ -22,18 +22,25 @@ public class PlayerController : MonoBehaviour
 
     GameObject box; 
 
+    public static string gameState; //ゲームの状態を把握する変数
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>(); 
         mainCamera.enabled = true; 
         PersonalCamera.enabled = false; 
+
+        gameState = "playing"; 
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(eyeStatus);
+        if(gameState == "gameClear"){
+            return; 
+        }
+        // Debug.Log(eyeStatus);
 
         Rotate();
         

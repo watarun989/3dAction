@@ -36,6 +36,11 @@ public class MoveTarget : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(PlayerController.gameState == "gameClear"){
+            agent.ResetPath(); 
+            return; 
+        }
+
         //常にプレイヤーとエネミーの距離を計算
         float distance = Vector3.Distance(player.transform.position,transform.position); 
 

@@ -23,7 +23,7 @@ public class GoalController : MonoBehaviour
 
         if(player.GetComponent<PlayerController>().coin == 1){
             goal.gameObject.SetActive(true); 
-            Debug.Log("true"); 
+            // Debug.Log("true"); 
         }
     }
 
@@ -31,6 +31,7 @@ public class GoalController : MonoBehaviour
         if(other.gameObject.tag == "Player"){
             goalTouch = true; 
             goal.gameObject.SetActive(false); 
+            PlayerController.gameState = "gameClear"; 
         }
     }
 }
