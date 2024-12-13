@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    Scene nowScene; 
+
+    public static string sceneChoice; 
+
     public float moveSpeed = 5.0f;　//プレイヤーの速度
     public float currentMoveSpeed;
 
@@ -36,6 +40,11 @@ public class PlayerController : MonoBehaviour
         PersonalCamera.enabled = false; 
 
         gameState = "playing"; 
+
+        //現シーンのデータをnowScene(Scene型)で参照して
+        nowScene= SceneManager.GetActiveScene();
+        //nowSceneが持っている名前(string型)をstatic変数であるsceneChoiceに格納
+        sceneChoice = nowScene.name;
     }
 
     // Update is called once per frame
