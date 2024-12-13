@@ -5,9 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5.0f; 
+    public float moveSpeed = 5.0f;　//プレイヤーの速度
+    public float currentMoveSpeed;
+
+
     public float rotationSpeed = 720.0f; //プレイヤーの回転速度
     public float jumpForce = 5.0f; //ジャンプ力
+    public float currentJumpForce;
+
+
     Rigidbody rb; 
     bool isGrounded = false; //地面判定
     public int coin = 0; //アイテムの数
@@ -17,16 +23,14 @@ public class PlayerController : MonoBehaviour
 
     public static bool eyeStatus; //見つかったかどうかのフラグ
 
-    bool isHold; //木箱を掴んでいるかどうか
-    //bool isObject; //木箱に触れているかどうか
-
-    GameObject box; 
-
     public static string gameState; //ゲームの状態を把握する変数
 
     // Start is called before the first frame update
     void Start()
     {
+        currentMoveSpeed = moveSpeed;
+        currentJumpForce = jumpForce;
+
         rb = GetComponent<Rigidbody>(); 
         mainCamera.enabled = true; 
         PersonalCamera.enabled = false; 
@@ -61,22 +65,14 @@ public class PlayerController : MonoBehaviour
             mainCamera.enabled = true; 
             PersonalCamera.enabled = false; 
             Move(); 
-            Jump(jumpForce);
-        }
-
-        if(Input.GetKeyDown(KeyCode.E)){
-            if(isHold){
-                DropObject(); 
-            }else if(box != null){
-                PickupObject(); 
-            }
+            Jump(currentJumpForce);
         }
     }
 
     void Move(){
         float moveX = Input.GetAxis("Horizontal"); //水平方向のキーの押され具体を取得（ー１か、０か、１かを取得）
         float moveZ = Input.GetAxis("Vertical"); //垂直方向
-        Vector3 movement = new Vector3(moveX,0,moveZ) * moveSpeed * Time.deltaTime; 
+        Vector3 movement = new Vector3(moveX,0,moveZ) * currentMoveSpeed * Time.deltaTime; 
         //キャラクターを動かす()の中に指定した座標へキャラを向かわせるメソッド
         rb.MovePosition(transform.position + movement);
     }
@@ -106,18 +102,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("coin" + coin); 
             Destroy(other.gameObject); 
         }
-
-        if(other.gameObject.tag == "box"){
-            //isObject = true;
-            box = other.gameObject;//対象のゲームオブジェクト
-        }
-    }
-
-    void OnTriggerExit(Collider other){
-        if(other.gameObject.tag == "box"){
-            //isObject = false;
-            box = null; //対象のゲームオブジェクトはいない
-        }
     }
 
     void OnCollisionEnter(Collision other){
@@ -126,29 +110,4 @@ public class PlayerController : MonoBehaviour
             SceneManager.LoadScene("GameOverScene"); 
         }
     }
-
-    void DropObject(){
-        isHold = false; 
-        box.transform.SetParent(null); 
-        box.GetComponent<Rigidbody>().isKinematic = false; 
-        //isObject = false;
-        box = null; 
-        jumpForce = 5.0f; 
-        moveSpeed = 5.0f; 
-    }
-
-    void PickupObject(){
-        isHold = true; 
-        box.transform.SetParent(transform); 
-        box.transform.localPosition = new Vector3(0,4,5); 
-        box.GetComponent<Rigidbody>().isKinematic = true; 
-        moveSpeed *= 0.8f; 
-        jumpForce = 0; 
-    }
-
-    //void OnCollisionEnter(Collision other){
-    //    if(other.gameObject.tag == "Ground"){
-    //        isGrounded = true; 
-    //    }
-    //}
 }
