@@ -54,8 +54,6 @@ public class PlayerController : MonoBehaviour
             return; 
         }
         // Debug.Log(eyeStatus);
-
-        Rotate();
         
         //フィジクスクラスの中のレイキャスト命令で足元を探索
         isGrounded = Physics.Raycast(
@@ -66,14 +64,27 @@ public class PlayerController : MonoBehaviour
             ) ;
 
         //Debug.Log("isGrounded:" + isGrounded);
+    }
 
-        if(Input.GetKey(KeyCode.Space)){
-            mainCamera.enabled = false; 
-            PersonalCamera.enabled = true; 
-        }else{
-            mainCamera.enabled = true; 
-            PersonalCamera.enabled = false; 
-            Move(); 
+    void FixedUpdate()
+    {
+        if (gameState == "gameClear")
+        {
+            return;
+        }
+
+        Rotate();
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            mainCamera.enabled = false;
+            PersonalCamera.enabled = true;
+        }
+        else
+        {
+            mainCamera.enabled = true;
+            PersonalCamera.enabled = false;
+            Move();
             Jump(currentJumpForce);
         }
     }
@@ -81,7 +92,7 @@ public class PlayerController : MonoBehaviour
     void Move(){
         float moveX = Input.GetAxis("Horizontal"); //水平方向のキーの押され具体を取得（ー１か、０か、１かを取得）
         float moveZ = Input.GetAxis("Vertical"); //垂直方向
-        Vector3 movement = new Vector3(moveX,0,moveZ) * currentMoveSpeed * Time.deltaTime; 
+        Vector3 movement = new Vector3(moveX,0,moveZ) * currentMoveSpeed; 
         //キャラクターを動かす()の中に指定した座標へキャラを向かわせるメソッド
         rb.MovePosition(transform.position + movement);
     }
