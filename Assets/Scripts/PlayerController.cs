@@ -110,7 +110,9 @@ public class PlayerController : MonoBehaviour
     void Jump(float value){
         if(Input.GetButtonDown("Jump") && isGrounded){
              //上方向に力を与える　Impulseは瞬間的に力を与える
-            rb.AddForce(Vector3.up * value,ForceMode.Impulse); 
+            //rb.AddForce(Vector3.up * value,ForceMode.Impulse);
+            rb.velocity = new Vector3(rb.velocity.x,currentJumpForce, rb.velocity.z);
+
             //isGrounded = false; 
             Debug.Log("Jump");
         }
