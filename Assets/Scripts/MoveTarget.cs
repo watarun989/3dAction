@@ -11,12 +11,14 @@ public class MoveTarget : MonoBehaviour
     //追う対象　変数名player
     public GameObject player; 
 
-    public Transform enemyPosition0; 
-    public Transform enemyPosition1; 
-    public Transform enemyPosition2; 
-    public Transform enemyPosition3; 
-    public Transform enemyPosition4; 
-    public Transform enemyPosition5; 
+    // public Transform enemyPosition0; 
+    // public Transform enemyPosition1; 
+    // public Transform enemyPosition2; 
+    // public Transform enemyPosition3; 
+    // public Transform enemyPosition4; 
+    // public Transform enemyPosition5; 
+
+    public Transform[] enemyPositions; 
 
     //巡回ルート担当
     public int route = 0;
@@ -85,61 +87,79 @@ public class MoveTarget : MonoBehaviour
             }
 
             //エネミーの初期地点へ向かう
-            if(route == 0){
-                agent.SetDestination(enemyPosition0.position); 
-            }
-            //P1に辿り着いて、P2を目指す
-            else if(route == 1){
-                agent.SetDestination(enemyPosition1.position); 
-            }
+            // if(route == 0){
+            //     agent.SetDestination(enemyPosition0.position); 
+            // }
+            // //P1に辿り着いて、P2を目指す
+            // else if(route == 1){
+            //     agent.SetDestination(enemyPosition1.position); 
+            // }
 
-            else if(route == 2){
-                agent.SetDestination(enemyPosition2.position); 
-            }
+            // else if(route == 2){
+            //     agent.SetDestination(enemyPosition2.position); 
+            // }
 
-            else if(route == 3){
-                agent.SetDestination(enemyPosition3.position); 
-            }
+            // else if(route == 3){
+            //     agent.SetDestination(enemyPosition3.position); 
+            // }
 
-            else if(route == 4){
-                agent.SetDestination(enemyPosition4.position); 
-            }
+            // else if(route == 4){
+            //     agent.SetDestination(enemyPosition4.position); 
+            // }
 
-            else if(route == 5){
-                agent.SetDestination(enemyPosition5.position); 
-            }
+            // else if(route == 5){
+            //     agent.SetDestination(enemyPosition5.position); 
+            // }
+
+            Routing(); 
         }
     }
 
-    void OnTriggerEnter(Collider other){
-        if(other.gameObject.tag == "p0"){
-            //次の目的地
-            route = 1; 
-        }
+    //プレイヤーを見つけていない時に巡回するメソッド
+    void Routing(){
+        //もしもルートポイントが１個も配列にセットされてなければ
+        //return→すぐメソッドを止める
+        if(enemyPositions.Length == 0) return; 
 
-        if(other.gameObject.tag == "p1"){
-            //次の目的地
-            route = 2; 
-        }
+        agent.SetDestination(enemyPositions[route].position); 
 
-        if(other.gameObject.tag == "p2"){
-            //次の目的地
-            route = 3; 
-        }
-
-        if(other.gameObject.tag == "p3"){
-            //次の目的地
-            route = 4; 
-        }
-
-        if(other.gameObject.tag == "p4"){
-            //次の目的地
-            route = 5; 
-        }
-
-        if(other.gameObject.tag == "p5"){
-            //次の目的地
-            route = 0; 
-        }
+        //もしもEnemyと今目指しているポイント(enemyPositions[route])のpositionの差が1.0f以下なら
+        //Enemyがポイントにたどり着いたと判断
+        if(Vector3.Distance(transform.position,enemyPositions[route].position) <= 1.0f){
+            //%はあまり計算→A%Bのあまりの数を求める
+            route = (route + 1) % enemyPositions.Length;
+        } 
     }
+
+    // void OnTriggerEnter(Collider other){
+    //     if(other.gameObject.tag == "p0"){
+    //         //次の目的地
+    //         route = 1; 
+    //     }
+
+    //     if(other.gameObject.tag == "p1"){
+    //         //次の目的地
+    //         route = 2; 
+    //     }
+
+    //     if(other.gameObject.tag == "p2"){
+    //         //次の目的地
+    //         route = 3; 
+    //     }
+
+    //     if(other.gameObject.tag == "p3"){
+    //         //次の目的地
+    //         route = 4; 
+    //     }
+
+    //     if(other.gameObject.tag == "p4"){
+    //         //次の目的地
+    //         route = 5; 
+    //     }
+
+    //     if(other.gameObject.tag == "p5"){
+    //         //次の目的地
+    //         route = 0; 
+    //     }
+    // }
 }

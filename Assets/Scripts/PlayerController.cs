@@ -121,13 +121,13 @@ public class PlayerController : MonoBehaviour
     void OnTriggerEnter(Collider other){
         if(other.gameObject.tag == "item"){
             coin++; 
-            Debug.Log("coin" + coin); 
+            // Debug.Log("coin" + coin); 
             Destroy(other.gameObject); 
         }
     }
 
     void OnCollisionEnter(Collision other){
-        Debug.Log("Collison"); 
+        // Debug.Log("Collison"); 
         if(other.gameObject.tag == "enemy"){
             SceneManager.LoadScene("GameOverScene"); 
         }
