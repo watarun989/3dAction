@@ -12,6 +12,7 @@ public class GoalController : MonoBehaviour
     void Start()
     {
         goal.gameObject.SetActive(false); 
+        GetComponent<BoxCollider>().enabled = false;  
     }
 
     // Update is called once per frame
@@ -23,6 +24,7 @@ public class GoalController : MonoBehaviour
 
         if(player.GetComponent<PlayerController>().coin == 1){
             goal.gameObject.SetActive(true); 
+            GetComponent<BoxCollider>().enabled = true; 
             // Debug.Log("true"); 
         }
     }
