@@ -26,7 +26,8 @@ public class MoveTarget : MonoBehaviour
     //プレイヤーを見つけたかどうかフラグ
     bool isSearchPlayer;
 
-
+    public float viewAngle = 60.0f; //エネミーの視野の合計
+    public float viewDistance = 50.0f; //エネミーの視野の限界
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +45,7 @@ public class MoveTarget : MonoBehaviour
         }
 
         //常にプレイヤーとエネミーの距離を計算
-        float distance = Vector3.Distance(player.transform.position,transform.position); 
+        // float distance = Vector3.Distance(player.transform.position,transform.position); 
 
         //P1に辿り着けるかどうか
         // if(transform.position == enemyPosition0){
@@ -52,17 +53,22 @@ public class MoveTarget : MonoBehaviour
         //     route = 1; 
         //     Debug.Log("P0"); 
         // }
-        if(distance <= 10.0f){
-            //（）に指定した座標に向かう （）の中は座標（Vector3型）
-            //プレイヤーの座標に向かう
-            agent.SetDestination(player.transform.position);
+        // if(distance <= 10.0f){
+        //     //（）に指定した座標に向かう （）の中は座標（Vector3型）
+        //     //プレイヤーの座標に向かう
+        //     agent.SetDestination(player.transform.position);
 
-            //プレイヤーを見つけたフラグ
-            isSearchPlayer = true;
+        //     //プレイヤーを見つけたフラグ
+        //     isSearchPlayer = true;
 
-            //プレイヤーを見つけたアイコンを表示
-            PlayerController.eyeStatus = true;
+        //     //プレイヤーを見つけたアイコンを表示
+        //     PlayerController.eyeStatus = true;
 
+        //もしプレイヤーが視界に移れば
+        if(CanSeePlayer()){
+            agent.SetDestination(player.transform.position); //追う対象をplayerのポジションにする
+            isSearchPlayer = true; //プレイヤーを見つけたフラグ
+            PlayerController.eyeStatus = true;//プレイヤーを見つけたアイコンを表示
         } else{
 
             //プレイヤーを見つけたかどうかのフラグ
@@ -162,4 +168,41 @@ public class MoveTarget : MonoBehaviour
     //         route = 0; 
     //     }
     // }
+
+    //プレイヤーが視界に写ればTrue、映ってなければFalseを返すメソッド
+    bool CanSeePlayer(){
+        //プレイヤーとエネミーの方向の差
+        Vector3 directionToPlayer = (player.transform.position - transform.position).normalized; 
+
+        //今、エネミーが向いている正面からどのくらいの方角にプレイヤーがいるのか
+        float angleToPlayer = Vector3.Angle(transform.forward,directionToPlayer); 
+
+        //視野を２で割った数（３０度）よりプレイヤーの方角（絶対値なのでマイナスは考えず）が小さければ
+        //視野に入っている可能性
+        if(angleToPlayer < viewAngle / 2){
+            //光のセンサーを伸ばして、ぶつかったものがあればTrue
+            if(Physics.Raycast(transform.position,directionToPlayer,out RaycastHit hit,viewDistance)){
+                //ぶつかった相手がプレイヤーならTrue
+                if(hit.collider.gameObject.tag == "Player"){
+                    return true; 
+                }
+            }
+        }
+
+        //プレイヤーが視野にいなかった
+        return false; 
+    }
+
+    void OnDrawGizmos()
+    {
+        // Gizmos.color = Color.yellow;
+        // Gizmos.DrawWireSphere(transform.position, viewDistance);
+
+        Vector3 leftBoundary = Quaternion.Euler(0, -viewAngle / 2, 0) * transform.forward;
+        Vector3 rightBoundary = Quaternion.Euler(0, viewAngle / 2, 0) * transform.forward;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + leftBoundary * viewDistance);
+        Gizmos.DrawLine(transform.position, transform.position + rightBoundary * viewDistance);
+    }
 }
