@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public string nextSceneName; 
+    TimeController timeCnt; 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        timeCnt = GameObject.FindObjectOfType<TimeController>(); 
     }
 
     // Update is called once per frame
@@ -26,5 +27,6 @@ public class GameManager : MonoBehaviour
 
     public void NextScene(){
         SceneManager.LoadScene(nextSceneName); 
+        TimeController.totalTime = timeCnt.currentTime; 
     }
 }

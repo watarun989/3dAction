@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
     public static string gameState; //ゲームの状態を把握する変数
 
+    TimeController timeCnt; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +47,8 @@ public class PlayerController : MonoBehaviour
         nowScene= SceneManager.GetActiveScene();
         //nowSceneが持っている名前(string型)をstatic変数であるsceneChoiceに格納
         sceneChoice = nowScene.name;
+
+        timeCnt = GameObject.FindObjectOfType<TimeController>(); 
     }
 
     // Update is called once per frame
@@ -130,6 +134,7 @@ public class PlayerController : MonoBehaviour
         // Debug.Log("Collison"); 
         if(other.gameObject.tag == "enemy"){
             SceneManager.LoadScene("GameOverScene"); 
+            TimeController.totalTime = timeCnt.currentTime; 
         }
     }
 }
