@@ -7,7 +7,7 @@ public class TimeController : MonoBehaviour
 {
     public static float totalTime = 0; 
     public float currentTime; 
-    public bool isTimeCount; 
+    public bool isTimeCount; 　　//Timeを計測するかどうかのフラグ
     public GameObject timeText; 
 
     // Start is called before the first frame update

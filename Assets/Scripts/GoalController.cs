@@ -8,7 +8,9 @@ public class GoalController : MonoBehaviour
     public GameObject player; 
     public GameObject goal; 
     bool goalTouch; 
-    public GameObject goalAnnounce; 
+    public GameObject goalAnnounce;
+
+    public TimeController timeCnt;
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +38,10 @@ public class GoalController : MonoBehaviour
     void OnTriggerEnter(Collider other){
         if(other.gameObject.tag == "Player"){
             goalTouch = true; 
-            goal.gameObject.SetActive(false); 
+            goal.gameObject.SetActive(false);
+            //Timeカウントが無効にするための処置
+            timeCnt.isTimeCount = false;
+
             PlayerController.gameState = "gameClear"; 
         }
     }
