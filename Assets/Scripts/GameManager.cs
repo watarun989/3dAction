@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public string nextSceneName; 
-    TimeController timeCnt; 
+    TimeController timeCnt;
+    public bool isLastScene;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,15 @@ public class GameManager : MonoBehaviour
 
     public void NextScene(){
         SceneManager.LoadScene(nextSceneName); 
-        TimeController.totalTime = timeCnt.currentTime; 
+        TimeController.totalTime = timeCnt.currentTime;
+        //もしもisLastSceneフラグがONであれば最終ステージだったと判断
+        if (isLastScene)
+        {
+            //もしも現記録がベストスコアより早かったら
+            if (TimeController.totalTime < PlayerPrefs.GetFloat("TimeScore"))
+            {
+                PlayerPrefs.SetFloat("TimeScore", TimeController.totalTime);
+            }
+        }
     }
 }
