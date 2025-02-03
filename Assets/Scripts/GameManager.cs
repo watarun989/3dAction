@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         if (isLastScene)
         {
             //もしも現記録がベストスコアより早かったら
-            if (TimeController.totalTime < PlayerPrefs.GetFloat("TimeScore"))
+            if (TimeController.totalTime < PlayerPrefs.GetFloat("TimeScore") || playerPrefs.GetFloat("TimeScore") == 0.0f)
             {
                 PlayerPrefs.SetFloat("TimeScore", TimeController.totalTime);
             }
