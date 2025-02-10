@@ -12,6 +12,9 @@ public class GoalController : MonoBehaviour
 
     public TimeController timeCnt;
 
+    public AudioSource soundManager;
+    public AudioClip gameClearClip;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +44,10 @@ public class GoalController : MonoBehaviour
             goal.gameObject.SetActive(false);
             //Timeカウントが無効にするための処置
             timeCnt.isTimeCount = false;
+
+            soundManager.Stop();
+            soundManager.clip = gameClearClip;
+            soundManager.Play();
 
             PlayerController.gameState = "gameClear"; 
         }

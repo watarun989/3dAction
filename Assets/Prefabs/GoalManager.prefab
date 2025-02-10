@@ -132,6 +132,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   goal: {fileID: 2849896636624558376}
+  goalAnnounce: {fileID: 0}
+  timeCnt: {fileID: 0}
+  soundManager: {fileID: 0}
+  gameClearClip: {fileID: 8300000, guid: 92543daca4aa4354996547325726ec47, type: 3}
 --- !u!65 &2325701933911767771
 BoxCollider:
   m_ObjectHideFlags: 0
