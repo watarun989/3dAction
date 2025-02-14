@@ -12,8 +12,12 @@ public class GoalController : MonoBehaviour
 
     public TimeController timeCnt;
 
-    public AudioSource soundManager;
+    public AudioSource audio;
+    public AudioSource soundManager; 
     public AudioClip gameClearClip;
+    public AudioClip goalAnnounceClip; 
+
+    bool isGoalAnnounce; 
 
     // Start is called before the first frame update
     void Start()
@@ -31,10 +35,14 @@ public class GoalController : MonoBehaviour
         }
 
         if(player.GetComponent<PlayerController>().coin == 3){
-            goal.gameObject.SetActive(true); 
-            GetComponent<BoxCollider>().enabled = true; 
-            goalAnnounce.SetActive(true); 
-            // Debug.Log("true"); 
+            if(!isGoalAnnounce){
+                audio.PlayOneShot(goalAnnounceClip); 
+                goal.gameObject.SetActive(true); 
+                GetComponent<BoxCollider>().enabled = true; 
+                goalAnnounce.SetActive(true); 
+                // Debug.Log("true"); 
+                isGoalAnnounce = true; 
+            }
         }
     }
 

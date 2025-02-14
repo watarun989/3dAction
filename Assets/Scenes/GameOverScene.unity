@@ -133,7 +133,7 @@ PrefabInstance:
     - target: {fileID: 766122779344146604, guid: 400ace3f1844d3a40ad0bbc91f37a061, type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 825549d19598fa74f8f2fa4f094aec0d, type: 3}
+      objectReference: {fileID: 8300000, guid: 7336f3cadcadb445c931639d324602f7, type: 3}
     - target: {fileID: 1181168491133138545, guid: 400ace3f1844d3a40ad0bbc91f37a061, type: 3}
       propertyPath: m_LocalPosition.x
       value: 230

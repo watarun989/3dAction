@@ -31,6 +31,10 @@ public class PlayerController : MonoBehaviour
 
     TimeController timeCnt; 
 
+    public AudioSource audio; 
+    public AudioClip jumpClip; 
+    public AudioClip coinClip; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -113,6 +117,8 @@ public class PlayerController : MonoBehaviour
 
     void Jump(float value){
         if(Input.GetButtonDown("Jump") && isGrounded){
+            audio.PlayOneShot(jumpClip); 
+
              //上方向に力を与える　Impulseは瞬間的に力を与える
             //rb.AddForce(Vector3.up * value,ForceMode.Impulse);
             rb.velocity = new Vector3(rb.velocity.x,currentJumpForce, rb.velocity.z);
@@ -124,6 +130,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter(Collider other){
         if(other.gameObject.tag == "item"){
+            audio.PlayOneShot(coinClip); 
             coin++; 
             // Debug.Log("coin" + coin); 
             Destroy(other.gameObject); 
