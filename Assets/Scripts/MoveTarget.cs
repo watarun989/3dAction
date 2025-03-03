@@ -61,6 +61,8 @@ public class MoveTarget : MonoBehaviour
                     break; //ひとり見つかったからforeachのループを抜ける
                 }
             }
+
+            Routing(); 
         }
     }
     //プレイヤーが視界に写ればTrue、映ってなければFalseを返すメソッド
@@ -85,6 +87,21 @@ public class MoveTarget : MonoBehaviour
 
         //プレイヤーが視野にいなかった
         return false; 
+    }
+
+    void Routing(){
+        //もしもルートポイントが１個も配列にセットされてなければ
+        //return→すぐメソッドを止める
+        if(enemyPositions.Length == 0) return; 
+
+        agent.SetDestination(enemyPositions[route].position); 
+
+        //もしもEnemyと今目指しているポイント(enemyPositions[route])のpositionの差が1.0f以下なら
+        //Enemyがポイントにたどり着いたと判断
+        if(Vector3.Distance(transform.position,enemyPositions[route].position) <= 1.0f){
+            //%はあまり計算→A%Bのあまりの数を求める
+            route = (route + 1) % enemyPositions.Length;
+        } 
     }
 
     void OnDrawGizmos()
